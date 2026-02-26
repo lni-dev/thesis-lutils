@@ -1,0 +1,301 @@
+This section discusses experiment results.
+The results of experiment 1 and 2 are presented first and afterwards the results of experiment 3 are shown.
+
+\subsection{Structure Creation/Allocation without write/read operations}\label{subsec:b1-e1-e2-results}
+% RESULTS: benchmark 1 of experiment 1 and 2
+
+The first benchmark creates and allocates structures whiteout performing write or read operations.
+The measured execution times and allocation rates of this benchmark across experiment 1 and 2 are presented in
+Fig.~\ref{fig:exec_time_b1_e1_e2} and Fig.~\ref{fig:alloc_rate_b1_e1_e2}.
+They show that LWJGL and FFMA exhibit the best performance across both experiments.
+The difference between LWJGL and FFMA are relatively small.
+FFMA is about 1.4 to 1.7 times slower than LWJGL, but both libraries require almost the same amount of Java-Heap memory.
+
+Nevertheless, both outperform the other libraries by more than an order of magnitude in terms of execution time and allocation rate.
+For example, FFMA is about 13 times faster than LUtils in the first experiment increasing to a factor of 49 in the second experiment.
+LUtils outperforms JNA in terms of execution time by a factor slightly higher than two in both experiment.
+In Contrast, LUtils and JNA exhibit almost identical amount of allocated bytes in experiment 1, but in experiment 2 JNA
+requires about 1.8 times more Java-Heap memory than LUtils.
+
+Overall, when creating and allocating small and medium-sized structures without performing write or read operations LWJGL and FFMA
+provide the best performance while LUtils and JNA perform about one order of magnitude worse in both execution time and
+Java-Heap memory allocation.
+
+% INTERPRETATION: benchmark 1 of experiment 1 and 2
+
+Most of these results are not unexpected, but the fact that LWJGL’s average execution time is slightly lower than the average
+execution time of FFMA is interesting.
+This is likely due to the different allocation strategies employed by the libraries.
+LWJGL is allocating with the native malloc function from jemalloc, while FFMA uses its \texttt{Arena} interface to allocate native
+memory, which provides more safety and correctness guarantees as well as zero-initialised memory.
+
+JNA and LUtils exhibit execution times that are more than six times higher compared to the other evaluated libraries.
+This behaviour can primarily be attributed to their reliance on reflection and the comparatively complex class hierarchies
+required to generate structure representations dynamically at runtime.
+In addition, both libraries perform validation steps each time a structure instance is created, introducing further overhead.
+
+Furthermore, LUtils encapsulates primitive native types within dedicated wrapper classes.
+This design increases both execution time and allocation rate, as each primitive value is represented by an object rather
+than a Java primitive type.
+In contrast, JNA maps native primitive types directly to their corresponding Java primitive types.
+This is likely the reason why JNA requires slightly less Java-Heap memory in the first experiment, which works with
+small structures containing mostly primitive types.
+However, in experiment 2 JNA  exhibits an almost two times higher allocation rate than LUtils.
+This could be explained by more complex runtime validations and initialisations, especially when working with more complex
+structures.
+
+\begin{figure}[htbp]
+    \centerline{
+        \includegraphics[width=\linewidth]{
+            imgs/measurementsAvg_of_benchmark2_and_benchmark5
+        }
+    }
+    \caption{Execution time results of the first benchmark for experiment 1 and 2.}
+    \label{fig:exec_time_b1_e1_e2}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centerline{
+        \includegraphics[width=\linewidth]{
+            imgs/allocationsMeasurementsMedian_of_benchmark2_and_benchmark5
+        }
+    }
+    \caption{Allocation rate results of the first benchmark for experiment 1 and 2.}
+    \label{fig:alloc_rate_b1_e1_e2}
+\end{figure}
+
+
+\subsection{Structure Creation/Allocation with write/read operations}\label{subsec:b2-e1-e2-results}
+
+% RESULTS: benchmark 2 of experiment 1 and 2
+
+The second benchmark evaluates the creation and allocation of structures including write and read operations to all fields.
+The execution time and allocation rate measurement results of this benchmark are presented in
+Fig.~\ref{fig:exec_time_b2_e1_e2} and Fig.~\ref{fig:alloc_rate_b2_e1_e2} for both experiment 1 and 2.
+Additionally to the main measurement, a reference is included in the figures, which allocates the same structures without
+performing any write or read operations.
+Once again, LWJGL achieves the best performance, followed by FFMA, which requires more than four times the execution time
+and slightly more than twice the Java-Heap memory compared to LWJGL in both experiments.
+Both libraries again outperform LUtils and JNA in both execution time and allocation rate.
+However, the gap between FFMA and LUtils shrinks compared to the first benchmark.
+Specifically, the execution time factor between FFMA and LUtils decreases from 13 and 48 in the first benchmark to a factor
+of 1.5 and 3.6 in benchmark 2.
+Similar to the first benchmark, JNA displays the worst performance being more than three times slower than LUtils while also exhibiting the
+highest amount of allocated bytes.
+
+Comparison with the reference benchmark shows that LWJGL and LUtils introduce the smallest absolute write/read overhead in
+terms of execution time and allocation rate.
+Their observed execution time overheads range from 101 ns to 429 ns.
+In contrast, FFMA and especially JNA display higher absolute write/read overheads with execution time overheads ranging
+from 855 ns to 12,438 ns.
+
+Overall, the results indicate that LWJGL again provides the most efficient implementation for write and read access,
+both in terms of execution time and memory allocation overhead.
+FFMA again outperforms LUtils and JNA, but displays the largest relative write/read overhead of approximately 80\%
+in both execution time and memory allocation.
+
+% INTERPRETATION: benchmark 2 of experiment 1 and 2
+
+Comparing the results to the reference benchmark reveals some interesting observations.
+Firstly, the large relative write and read overhead of LWJGL is unexpected, because the generated LWJGL structure classes
+translate most memory operations directly to \texttt{Unsafe.put*()} and \texttt{Unsafe.get*()} methods, which is a JVM
+intrinsic and should be replaced with handwritten assembly or bytecode at runtime thereby increasing performance\cite{optimizing_java}.
+Looking at the benchmark code, this can be reasonably explained: A large part of the introduced overhead stems from the
+code itself, specifically from Integer, Long and Float wrapper classes that are created during the benchmark.
+Of course, this overhead is introduced to all libraries equally, but the effect is most visible on LWJGL, due to its low
+reference execution time.
+Another interesting observation is the large relative overhead of FFMA introduced by writing and reading from the structures.
+This is likely due to the use of VarHandle instead of written or generated functions, which requires
+additional conversions and checks executed on every write and read operation\footnote{
+    \url{
+        https://github.com/openjdk/jdk/blob/bea48b54e2f423693e1e472129a86b030baf9eee/src/java.base/share/classes/java/lang/invoke/VarHandle.java
+    }
+}.
+LUtils has the smallest relative overhead, because similar to LWJGL it translates write and read operations directly to
+\texttt{ByteBuffer.put()} and \texttt{ByteBuffer.get()} methods.
+LWJGL remains faster, because unlike \texttt{Unsafe}, \texttt{ByteBuffer} executes additional checks on every write and read operation before
+calling \texttt{Unsafe.put*()} and \texttt{Unsafe.get*()}.
+JNA exhibits the largest absolute overhead, which is likely due to the way the JNA Structures are implemented.
+The structure fields are represented by normal Java types.
+Thus, when writing to a structure all values are written to the Java-Heap and only after subsequently
+calling the \texttt{Structure.write()} method, they are read using Java reflection and then converted and written to native memory.
+Furthermore, reading from the structure using \texttt{Structure.read()} requires a similar pipeline.
+
+\begin{figure}[htbp]
+    \centerline{
+        \includegraphics[width=\linewidth]{
+            imgs/measurementsAvg_of_benchmark3_and_benchmark7
+        }
+    }
+    \caption{Execution time results of the second benchmark for experiment 1 and 2.}
+    \label{fig:exec_time_b2_e1_e2}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centerline{
+        \includegraphics[width=\linewidth]{
+            imgs/allocationsMeasurementsMedian_of_benchmark3_and_benchmark7
+        }
+    }
+    \caption{Allocation rate results of the second benchmark for experiment 1 and 2.}
+    \label{fig:alloc_rate_b2_e1_e2}
+\end{figure}
+
+\subsection{Results for Very Large Structures}\label{subsec:results-e3}
+
+% RESULTS: benchmark 1 of experiment 3
+
+The third experiment performs the same benchmarks on very large and complex structures.
+The execution time and allocation rate results for creating five large structures without performing write or read
+operations are visible in Fig.~\ref{fig:exec_time_b1_e3} and Fig.~\ref{fig:alloc_rate_b1_e3}.
+
+Once again, LWJGL displays the best performance across all evaluated libraries.
+In the first benchmark LWJGL is 30 times faster than the second-best approach, which is LUtils.
+Meaning that, for the fist time LUtils exhibits a better performance than FFMA by a factor of approximately four.
+JNA once again displays the worst performance with two orders of magnitude slower execution time than FFMA and LUtils.
+
+The allocation rate results show a slightly different trend.
+LWJGL and FFMA allocate less than 600 bytes of Java-Heap memory.
+In Contrast, LUtils requires about two orders of magnitude more Java-Heap memory and JNA again exhibits the highest
+allocation rate, allocating about 1890 times more bytes than LUtils.
+
+% INTERPRETATION: benchmark 1  of experiment 3
+
+The very low execution time of LWJGL is again expected for multiple reasons.
+Firstly, it does not require any reflective access when the structure is created, and secondly it does not fill
+the allocated memory with zeros.
+However, noteworthy is the fact that LWJGL requires as little allocated bytes as FFMA\@.
+This is interesting because LWJGL creates classes to easily perform write and read operations on the structures while FFMA does not.
+These classes should require a large number of allocated bytes due to the high complexity of the nested structures.
+This disparity can be explained by the fact that the large structures mostly consist of arrays of other structures and arrays of primitive types.
+LWJGL does not initially create the classes for each array element.
+Instead, the classes are only created when required.
+This means that a large increase in allocated bytes is expected when write and read operations are performed in the write/read benchmark.
+
+The fact that JNA requires 1890 times more Java-Heap memory allocation than LUtils might be explained by two reasons.
+The first reason is that JNA is the only library, that stores the content of each structure on the Java-Heap before writing it to native memory.
+Consequently, JNA uses Java primitive type arrays to represent native primitive type arrays.
+These require more bytes on the Java-Heap based on the length of the array.
+In Contrast, LUtils provides wrapper classes for these arrays, which require little Java-Heap memory.
+For example, an array of 100,000 integers requires 400,000 bytes while LUtils requires less than 416 bytes
+(measured with JMH; contains overhead required for allocating memory).
+In this benchmark arrays of primitive types are used multiple times in the structures, which amplifies this effect.
+Furthermore, the structures also contain many arrays of structures, which is the second reason:
+LUtils creates a Java-Array for each structure array, but like LWJGL it only initialises
+the elements of the array with structure specific classes when they are required for writing or reading - which is not the case in this benchmark.
+On the other hand, JNA initialises every array element when the parent structure is created, resulting in an increase of allocation rate.
+
+
+\begin{figure}[htbp]
+    \centerline{
+        \includegraphics[width=\linewidth]{
+            imgs/broken_axis__execution_time_of_benchmark6
+        }
+    }
+    \caption{Execution time results of the first benchmark for experiment 3.}
+    \label{fig:exec_time_b1_e3}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centerline{
+        \includegraphics[width=\linewidth]{
+            imgs/broken_axis__allocation_rate_of_benchmark6
+        }
+    }
+    \caption{Allocation rate results of the first benchmark for experiment 3.}
+    \label{fig:alloc_rate_b1_e3}
+\end{figure}
+
+% RESULTS: benchmark 2 of experiment 3
+
+The second benchmark of experiment 3 creates a single large structure and performs write and read operations on
+all structure fields.
+The results are summarised in Fig.~\ref{fig:exec_time_b2_e3} and Fig.~\ref{fig:alloc_rate_b2_e3}.
+They show that LWJGL, FFMA and LUtils perform similarly for both execution time and allocation rate.
+LWJGL once again displaying the best performance, followed by LUtils and FFMA, which is about two times slower than LWJGL\@.
+Only JNA exhibits a substantially higher execution time and allocation rate.
+Its execution time is about five times higher than the other evaluated libraries.
+
+When comparing to the reference values LWJGL, FFMA and LUtils exhibit a relative write/read overhead of more than 98\%.
+Only JNA displays a smaller relative overhead of about 73\% compared to its already high reference value.
+However, JNA also displays the largest absolute write/read overhead.
+
+% INTERPRETATION: benchmark 2  of experiment 3
+
+In this benchmark the large write and read overhead of LWJGL is not as unexpected as in the earlier write/read benchmarks.
+The reasoning for that is that LWJGL creates the custom structure classes for each element of all arrays whose component
+type is not a primitive type.
+These classes are required to write and read from the elements of the arrays.
+In fact, this reason also applies to FFMA and LUtils as well.
+FFMA creates a \texttt{MemorySegment} for each element and LUtils creates its custom structure classes extending \texttt{ComplexStructure}.
+Only JNA creates all of its custom structure classes in advance while allocating the structure, as mentioned during the interpretation
+of the previous benchmark.
+
+\begin{figure}[htbp]
+    \centerline{
+        \includegraphics[width=\linewidth]{
+            imgs/execution_time_of_benchmark9
+        }
+    }
+    \caption{Execution time results of the second benchmark for experiment 3.}
+    \label{fig:exec_time_b2_e3}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centerline{
+        \includegraphics[width=\linewidth]{
+            imgs/allocation_rate_of_benchmark9
+        }
+    }
+    \caption{Allocation rate results of the second benchmark for experiment 3.}
+    \label{fig:alloc_rate_b2_e3}
+\end{figure}
+
+
+\subsection{Measurement Variability}\label{subsec:results-variability}
+The execution time variability of all libraries is relatively low compared to the average values with
+standard deviations smaller than 10\% of their average values across almost all experiments.
+Only in the first benchmark of experiment 1 JNA displays standard deviations of approximately 125\% proportional to its average value, due to
+55 outliers reaching values up to 652,340 ns.
+As a reminder, this benchmark creates ten small structures without performing write/read operations and the average execution time
+of JNA is 38,868 ns.
+
+The allocation rate variability follows a similar trend.
+In the first two experiments LWJGL, FFMA and LUtils exhibit negligible standard deviations less than 0.01\% relative to their average values.
+Once again JNA displayed extreme variability in the first benchmark of experiment 1 with a standard deviation of approximately
+135\% proportional to its average value.
+Similar to the execution time results, this variability is due to 55 outliers reaching values up to 219,739 bytes.
+In the other benchmark JNA displays a standard deviation of up to 90 bytes which is still less than 2\% compared to the
+respective average values.
+
+In the third experiment all evaluated libraries showed neglectable standard deviations less than six bytes.
+Only JNA exhibits higher absolute standard deviations of 146,937 bytes in the first benchmarks and 37 bytes in the second benchmark.
+However, proportional to the high average allocation rate, this corresponds to a relative variation of less than 0.2\%.
+
+
+\subsection{Conclusion}\label{subsec:results-conclusion}
+
+Overall, the benchmark results show that LWJGL provides the best performance for allocating structures and write/read
+operations across different structure sizes.
+Following LWJGL, FFMA displayed the second-best performance, especially when allocating structures without
+performing write/read operations.
+However, FFMA performed worse when working with large and complex structures.
+JNA generally displayed the worst performance especially when working with larger structures.
+
+LUtils generally performed worse than LWJGL and FFMA but better than JNA. Only in the last experiment – evaluating large
+and complex structures – LUtils performed better than FFMA in terms of execution time.
+Furthermore, the results show that LWJGL performed up to 83 times better than LUtils in terms of execution time,
+suggesting that LUtils should not be used for performance-critical applications without further optimisations.
+
+The preferred choice for performance-critical applications should be LWJGL or FFMA\@.
+However, LWJGL shows considerably less write/read overhead, meaning that if the application performs many write and read
+operations on the structures LWJGL should be preferred.
+Additionally, if very large structures are required, LWJGL will provide considerably better performance than FFMA\@.
+
+
+
+
+
+
+
+

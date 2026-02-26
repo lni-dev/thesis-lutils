@@ -1,0 +1,158 @@
+{
+    "lwjgl": {
+        "fork count": 3,
+        "avg(exec. time)": {
+            "min": 844.1220129852786,
+            "max": 846.5854416038097,
+            "diff": 2.463428618531111,
+            "diff/array[0] (percentage)": "0.29%"
+        },
+        "median(exec. time)": {
+            "min": 843.8637571596869,
+            "max": 845.8564165026892,
+            "diff": 1.9926593430022876,
+            "diff/array[0] (percentage)": "0.24%"
+        },
+        "std(exec. time)": {
+            "min": 2.392958546758207,
+            "max": 3.9531684866375847,
+            "diff": 1.5602099398793778,
+            "diff/array[0] (percentage)": "39.47%"
+        },
+        "avg(alloc. rate)": {
+            "min": 904.005872745832,
+            "max": 904.0058858655549,
+            "diff": 1.3119722893861763e-05,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "median(alloc. rate)": {
+            "min": 904.0058369455376,
+            "max": 904.0058461528054,
+            "diff": 9.207267794408835e-06,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "std(alloc. rate)": {
+            "min": 0.0006276563523492688,
+            "max": 0.0006319564977112899,
+            "diff": 4.3001453620210815e-06,
+            "diff/array[0] (percentage)": "0.68%"
+        }
+    },
+    "ffma": {
+        "fork count": 3,
+        "avg(exec. time)": {
+            "min": 1174.6832557264656,
+            "max": 1183.3676167274173,
+            "diff": 8.68436100095164,
+            "diff/array[0] (percentage)": "0.74%"
+        },
+        "median(exec. time)": {
+            "min": 1173.9228034567209,
+            "max": 1182.975453876168,
+            "diff": 9.052650419447218,
+            "diff/array[0] (percentage)": "0.77%"
+        },
+        "std(exec. time)": {
+            "min": 3.0030474967225333,
+            "max": 5.823336311327166,
+            "diff": 2.8202888146046328,
+            "diff/array[0] (percentage)": "89.38%"
+        },
+        "avg(alloc. rate)": {
+            "min": 952.0081670518429,
+            "max": 952.0082342888508,
+            "diff": 6.723700789734721e-05,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "median(alloc. rate)": {
+            "min": 952.0081133474073,
+            "max": 952.0081828400682,
+            "diff": 6.94926609412505e-05,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "std(alloc. rate)": {
+            "min": 0.0008770100557960533,
+            "max": 0.000881187835596121,
+            "diff": 4.177779800067683e-06,
+            "diff/array[0] (percentage)": "0.47%"
+        }
+    },
+    "lutils": {
+        "fork count": 3,
+        "avg(exec. time)": {
+            "min": 15382.54914678134,
+            "max": 15553.242796936618,
+            "diff": 170.69365015527728,
+            "diff/array[0] (percentage)": "1.11%"
+        },
+        "median(exec. time)": {
+            "min": 15354.557034811096,
+            "max": 15532.152511968463,
+            "diff": 177.595477157367,
+            "diff/array[0] (percentage)": "1.16%"
+        },
+        "std(exec. time)": {
+            "min": 149.04260843341586,
+            "max": 214.744056768041,
+            "diff": 65.70144833462513,
+            "diff/array[0] (percentage)": "30.60%"
+        },
+        "avg(alloc. rate)": {
+            "min": 7632.103610769175,
+            "max": 7632.105457521251,
+            "diff": 0.0018467520758349565,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "median(alloc. rate)": {
+            "min": 7632.102759896411,
+            "max": 7632.105514092544,
+            "diff": 0.0027541961326278397,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "std(alloc. rate)": {
+            "min": 0.011144234435296402,
+            "max": 0.011608280997554482,
+            "diff": 0.0004640465622580796,
+            "diff/array[0] (percentage)": "4.00%"
+        }
+    },
+    "jna": {
+        "fork count": 3,
+        "avg(exec. time)": {
+            "min": 36856.57064649554,
+            "max": 44245.384147783334,
+            "diff": 7388.813501287797,
+            "diff/array[0] (percentage)": "19.01%"
+        },
+        "median(exec. time)": {
+            "min": 27703.59288287742,
+            "max": 28384.05129678014,
+            "diff": 680.4584139027211,
+            "diff/array[0] (percentage)": "2.46%"
+        },
+        "std(exec. time)": {
+            "min": 32448.49352790374,
+            "max": 123569.75694208618,
+            "diff": 91121.26341418244,
+            "diff/array[0] (percentage)": "187.56%"
+        },
+        "avg(alloc. rate)": {
+            "min": 7561.900780624239,
+            "max": 7856.8131732262955,
+            "diff": 294.91239260205657,
+            "diff/array[0] (percentage)": "3.75%"
+        },
+        "median(alloc. rate)": {
+            "min": 7240.258428830528,
+            "max": 7261.190467099994,
+            "diff": 20.93203826946592,
+            "diff/array[0] (percentage)": "0.29%"
+        },
+        "std(alloc. rate)": {
+            "min": 4670.270335887003,
+            "max": 10609.964445560658,
+            "diff": 5939.694109673655,
+            "diff/array[0] (percentage)": "55.98%"
+        }
+    }
+}

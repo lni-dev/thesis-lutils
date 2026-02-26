@@ -1,0 +1,27 @@
+LUtils provides the class \texttt{Structure} from which every other structure must extend.
+It serves with many already implemented structures.
+This includes wrapper classes for primitive types, such as the class \texttt{BBInt1} which represents a 32-bit integer.
+2- to 4-component vector types are provided (\texttt{BBFloat2}, \texttt{BBFloat3}, \texttt{BBFloat4}) as well as different
+array types.
+These include the class \texttt{StructureArray} representing an array of any structure as well as special classes for
+arrays of primitive types and utf-8 and utf-16 strings.
+
+Developers can implement C-style structures (\texttt{struct}) by extending the \texttt{ComplexStructure} class.
+For example, a structure containing a 32-bit integer, an 8-bit integer and a 64-bit integer would be implemented as shown
+in Listing~\ref{lst:complex-structure-example}.
+\begin{lstlisting}[caption={Example structure implemented in LUtils}, label={lst:complex-structure-example}]
+public class SmallTestStruct2 extends ComplexStructure {
+  public final @StructValue(0) BBInt1 aInt = BBInt1.newUnallocated();
+  public final @StructValue(1) BBByte1 aByte = BBByte1.newUnallocated();
+  public final @StructValue(2) BBLong1 aLong = BBLong1.newUnallocated();
+
+  public SmallTestStruct2() { super(false); }
+}
+\end{lstlisting}
+
+LUtils uses Java reflection to retrieve the \texttt{StructureLayoutSettings} annotation from the class extending
+\texttt{ComplexStructure}.
+This annotation defines the ABI to use for the structure.
+If the annotation is not present Microsoft's x64 ABI convention is used.
+After the ABI has been selected all fields of the structure are listed using reflection and the memory layout is calculated.
+Memory allocation happens explicitly when \texttt{allocate()} is called and uses \texttt{ByteBuffer.allocateDirect()} internally.

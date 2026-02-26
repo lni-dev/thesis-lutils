@@ -1,0 +1,15 @@
+This paper introduces the newly developed library LUtils to work with structures using different Application Binary Interfaces (ABI).
+To determine whether LUtils represents a viable alternative to existing solutions in terms of execution time and memory behaviour,
+several Java native access libraries were evaluated and compared – namely LWJGL, FFMA, JNA and the introduced library LUtils.
+To achieve this, multiple JMH (Java Microbenchmark Harness) benchmarks were designed to evaluate the performance of structure
+creation and write/read operations.
+These benchmarks measure execution time as well as Java-Heap allocation rate and thereby reveal the following performance characteristics:
+LWJGL demonstrated the best performance.
+It is followed by FFMA which displays low execution times for small structures,
+but shows decreasing performance with large and complex structures.
+LUtils and especially JNA display generally lower performance, likely due to their use of Java reflection.
+The evaluation revealed that LUtils should not be used in performance critical applications like real-time rendering,
+because LWJGL provides up to 83 times better performance.
+Possible candidates for performance critical applications include LWJGL and FFMA. However, LWJGL consistently displays
+better performance than FFMA, especially when working with very large structures or when performing many write/read
+operations.

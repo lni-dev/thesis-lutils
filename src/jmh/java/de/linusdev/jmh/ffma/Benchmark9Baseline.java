@@ -1,0 +1,55 @@
+package de.linusdev.jmh.ffma;
+
+import de.linusdev.jmh.Common;
+import de.linusdev.jmh.MyRandom;
+import de.linusdev.jmh.structs.ffma.generated.*;
+import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.infra.Blackhole;
+import org.openjdk.jmh.profile.GCProfiler;
+import org.openjdk.jmh.results.format.ResultFormatType;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
+
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
+import java.util.concurrent.TimeUnit;
+
+import static de.linusdev.jmh.Constants.*;
+import static de.linusdev.jmh.Helper.mustBeEquals;
+import static de.linusdev.jmh.Main.fixBenchmarkName;
+
+@BenchmarkMode(Mode.AverageTime)
+@Fork(value = 1)
+@Warmup(iterations = B9_WARMUP_ITERATIONS, time = B9_MEASUREMENT_TIME)
+@Measurement(iterations = B9_MEASUREMENT_ITERATIONS, time = B9_MEASUREMENT_TIME)
+@OutputTimeUnit(value = TimeUnit.NANOSECONDS)
+@State(value = Scope.Benchmark)
+public class Benchmark9Baseline {
+
+    @Setup
+    public void setup() {
+    }
+
+    @Benchmark
+    public void benchmark(Blackhole bh) {
+        Arena arena = Arena.ofConfined();
+        MemorySegment struct1 = arena.allocate(LargeTestStruct1.LAYOUT);
+        bh.consume(struct1);
+        arena.close();
+    }
+
+    @TearDown
+    public void teardown() {
+
+    }
+
+    public static void main(String[] args) throws RunnerException {
+        // Do setup before everything, so the async profiler can be initialized
+        Common.setup();
+        Class<?> selfClazz = Benchmark9Baseline.class;
+        Common.runBenchmark(selfClazz, AVERAGE_DO_GC);
+    }
+
+}

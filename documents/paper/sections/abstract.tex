@@ -1,0 +1,8 @@
+Efficient access to native structures is essential for performance-critical Java applications, such as real-time rendering.
+Existing libraries - such as LWJGL, the Foreign Function \& Memory API (FFMA) and JNA - facilitate this but do not provide
+support for Application Binary Interfaces (ABI) like OpenGL’s Standard Uniform Block Layout (std140).
+That is why this thesis introduces an ABI-aware approach to access native structures in Java.
+A microbenchmark study using JMH was conducted to compare LUtils with LWJGL, FFMA and JNA in terms of structure creation,
+memory allocation and write/read operations.
+The evaluation reveals that LUtils – in its current form – should not be used for performance-critical applications.
+Instead, the libraries LWJGL or FFMA should be preferred.

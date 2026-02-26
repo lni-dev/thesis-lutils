@@ -1,0 +1,41 @@
+{
+    "jna": {
+        "fork count": 3,
+        "avg(exec. time)": {
+            "min": 39160.024502375956,
+            "max": 39287.52787259699,
+            "diff": 127.50337022103486,
+            "diff/array[0] (percentage)": "0.33%"
+        },
+        "median(exec. time)": {
+            "min": 28401.48341665217,
+            "max": 28854.422655526778,
+            "diff": 452.93923887460915,
+            "diff/array[0] (percentage)": "1.57%"
+        },
+        "std(exec. time)": {
+            "min": 39432.41862553023,
+            "max": 57131.95329658705,
+            "diff": 17699.534671056826,
+            "diff/array[0] (percentage)": "44.89%"
+        },
+        "avg(alloc. rate)": {
+            "min": 7497.297813881859,
+            "max": 7932.023002692133,
+            "diff": 434.7251888102737,
+            "diff/array[0] (percentage)": "5.80%"
+        },
+        "median(alloc. rate)": {
+            "min": 7248.612415637754,
+            "max": 7252.89571131706,
+            "diff": 4.28329567930632,
+            "diff/array[0] (percentage)": "0.06%"
+        },
+        "std(alloc. rate)": {
+            "min": 3244.6801316048636,
+            "max": 12189.944252560372,
+            "diff": 8945.264120955508,
+            "diff/array[0] (percentage)": "275.69%"
+        }
+    }
+}

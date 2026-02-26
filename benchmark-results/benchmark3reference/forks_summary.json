@@ -1,0 +1,158 @@
+{
+    "lwjgl": {
+        "fork count": 1,
+        "avg(exec. time)": {
+            "min": 150.13958187139184,
+            "max": 150.13958187139184,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "median(exec. time)": {
+            "min": 150.06099827836465,
+            "max": 150.06099827836465,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "std(exec. time)": {
+            "min": 0.5051041047256731,
+            "max": 0.5051041047256731,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "avg(alloc. rate)": {
+            "min": 176.00104423776597,
+            "max": 176.00104423776597,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "median(alloc. rate)": {
+            "min": 176.001037524867,
+            "max": 176.001037524867,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "std(alloc. rate)": {
+            "min": 0.0001127989750035748,
+            "max": 0.0001127989750035748,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        }
+    },
+    "ffma": {
+        "fork count": 1,
+        "avg(exec. time)": {
+            "min": 228.88654842877887,
+            "max": 228.88654842877887,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "median(exec. time)": {
+            "min": 228.41220858769958,
+            "max": 228.41220858769958,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "std(exec. time)": {
+            "min": 1.1846939052216818,
+            "max": 1.1846939052216818,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "avg(alloc. rate)": {
+            "min": 224.00159209080803,
+            "max": 224.00159209080803,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "median(alloc. rate)": {
+            "min": 224.00157959867863,
+            "max": 224.00157959867863,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "std(alloc. rate)": {
+            "min": 0.0001707410297178941,
+            "max": 0.0001707410297178941,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        }
+    },
+    "lutils": {
+        "fork count": 1,
+        "avg(exec. time)": {
+            "min": 3084.5748646629054,
+            "max": 3084.5748646629054,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "median(exec. time)": {
+            "min": 3077.565941831879,
+            "max": 3077.565941831879,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "std(exec. time)": {
+            "min": 47.80431316680952,
+            "max": 47.80431316680952,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "avg(alloc. rate)": {
+            "min": 1920.0211209390063,
+            "max": 1920.0211209390063,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "median(alloc. rate)": {
+            "min": 1920.0210690278598,
+            "max": 1920.0210690278598,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "std(alloc. rate)": {
+            "min": 0.002251744794836969,
+            "max": 0.002251744794836969,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        }
+    },
+    "jna": {
+        "fork count": 1,
+        "avg(exec. time)": {
+            "min": 4805.0438986320105,
+            "max": 4805.0438986320105,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "median(exec. time)": {
+            "min": 4980.398611040599,
+            "max": 4980.398611040599,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "std(exec. time)": {
+            "min": 604.4907857749969,
+            "max": 604.4907857749969,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "avg(alloc. rate)": {
+            "min": 2137.2073665515695,
+            "max": 2137.2073665515695,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "median(alloc. rate)": {
+            "min": 2137.207261226946,
+            "max": 2137.207261226946,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        },
+        "std(alloc. rate)": {
+            "min": 26.535518125326053,
+            "max": 26.535518125326053,
+            "diff": 0.0,
+            "diff/array[0] (percentage)": "0.00%"
+        }
+    }
+}

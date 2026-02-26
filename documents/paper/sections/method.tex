@@ -1,0 +1,92 @@
+To compare LUtils to structures created with LWJGL, FFMA and JNA three experiments are performed.
+The experiments measure structure creation and write/read performance for structures of different sizes and complexities.
+The Java Microbenchmark Harness (JMH) is used to measure execution time and Java-Heap allocation rate across multiple benchmarks.
+Each experiment features two benchmarks, which are executed separately for each library.
+The code and results of each experiment are available on GitHub\footnote{
+    \url{
+        https://github.com/lni-dev/thesis-lutils
+    }
+} to ensure reproducibility.
+
+The first benchmark of each experiment aims to compare the native memory allocation and initialization of classes
+required for the structures.
+No elements of the structures are set to any value or read from.
+The benchmark is intentionally minimalistic to isolate overhead associated with memory allocation and object creation.
+
+The goal of the second benchmark is to compare the performance of writing to and reading from structures.
+At least one structure is allocated, and all fields are set to random values.
+The random values - generated using \texttt{java.lang.Random} with a fixed seed - are the same for each of the four libraries.
+Afterwards all fields are read and compared with the original input.
+The comparison code is the same for all four libraries, thus not skewing the benchmarks.
+Additionally, a reference benchmark is run which allocates the same structures but without performing any read or write
+operations, thereby isolating the overhead introduced by memory access.
+The reference benchmark is used to draw a reference line in the resulting plots.
+
+All benchmarks are executed on the same hardware, which is a Dell Latitude 5300 laptop with an Intel Core i5 vPro CPU
+with 16 Gigabyte of DDR4 RAM and no dedicated GPU. The laptop is running the operating system Pop!\_OS 24.04 LTS\@.
+Additionally, Intel SpeedStep, Intel Turbo Boost, hyper-threading and address space layout randomisation has been disabled
+to avoid performance fluctuations caused by these features\cite{disable_cpu_features}.
+The available memory has been fixed to 8GB using Java’s \texttt{Xmx} flag.
+
+Furthermore, common benchmark pitfalls\cite{benchmark_pitfalls_1, benchmark_pitfalls_2} have been avoided by using the
+respective JMH features:
+\begin{description}
+    \item[Dead code elimination:] \hfill \\ To avoid dead code elimination all unused variables are consumed using a \texttt{BlackHole} instance.
+    \item[Constant folding:] \hfill \\ To avoid constant folding all constants are stored in non-final class variables.
+    \item[Wrong stable state:] \hfill \\ To achieve a stable state five warmup iterations are included in every benchmark
+\end{description}
+
+Each iteration executes the benchmark repeatedly for one second and every benchmark consists of 50 warmup and 400 measurement iterations, which
+provide at least 4,000 invocations of benchmark code.
+Additionally, the measurements are run three times (3 forks) on fully clear instantiations of new JVMs.
+These show that the medians vary less than 5\% across all three forks.
+Except in benchmark 2 of experiment 3, where FFMA exhibits a maximum median variation of 8.29\%.
+
+\subsection{Experiment 1}\label{subsec:experiment-1}
+
+The first experiment evaluates small structures using the four different java native access libraries: LUtils, FFMA, JNA, LWJGL\@.
+The structures all have a sizes between 8 and 48 bytes.
+Additionally, they contain up to three different element types.
+Even though each element can be a different structure which contains more element types, the size constraint is retains a low
+amount of different element types.
+The structure with the highest amount of different element types contains five different types.
+
+The first benchmark of this experiment allocates ten different structures without reading or writing to them.
+This provides variation in memory layouts, which helps to capture a broader range of real-world usage scenarios.
+Furthermore, it reduces the risk of bias caused by library specific optimisations or inefficiencies.
+The second benchmark allocates two different structures to write to and read from.
+Only two structures are used, because each structure provides multiple read and write operations.
+
+\subsection{Experiment 2}\label{subsec:experiment-2}
+
+The second experiment evaluates medium structures across the four libraries.
+The structures have sizes between 112 bytes and 424 bytes containing between five and ten different element types.
+Once again, each element can be another structure which may contain more element types.
+Thus, this experiment aims compare structure creation, writing and reading with more complex structures.
+
+The first benchmark of this experiment allocates five different structures without reading or writing to them.
+Due to the much higher complexity of the structures, this provides variation in memory layout and reduces the risk of bias
+caused by library specific optimizations or inefficiencies.
+In contrast, the second benchmark allocates only a single structure to write to and read from.
+A single structure provides enough variation, because of the high complexity of the structure itself and the many read and
+write operations required to write to every field of the structure.
+
+\subsection{Experiment 3}\label{subsec:experiment-3}
+
+The third experiment evaluates large structures across all four libraries.
+The sizes of these structures range from 496,000 bytes to 1,184,000 bytes.
+The structures mostly contain arrays of primitive types or arrays of other structures.
+Thus, this experiment’s goal is to compare structure creation, writing and reading with very large and complex structures
+with a lot of arrays.
+
+Once again, the first benchmark allocates five different structures without reading or writing to them.
+Five structures are used to provide variation in memory layout and reduce the risk of bias caused by library specific
+optimizations or inefficiencies.
+The second benchmark allocates a single structure to write to and read from.
+The structure used is complex and provides a large variety of read and write operations.
+
+
+
+
+
+

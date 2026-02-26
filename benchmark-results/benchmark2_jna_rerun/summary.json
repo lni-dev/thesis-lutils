@@ -1,0 +1,18 @@
+{
+    "jna": {
+        "measurementsStd": "39432.4186255302",
+        "measurementsAvg": "39160.0245023760",
+        "measurementsMedian": "28812.1080259506",
+        "measurementsMin": "18809.3110793585",
+        "measurementsMax": "487544.7755948483",
+        "allocationsMeasurementsStd": "3244.6801316049",
+        "allocationsMeasurementsAvg": "7497.2978138819",
+        "allocationsMeasurementsMedian": "7252.8957113171",
+        "allocationsMeasurementsMin": "7001.3280997460",
+        "allocationsMeasurementsMax": "72162.7190383002",
+        "std/median(exec. time)": "136.86%",
+        "std/average(exec. time)": "100.70%",
+        "std/median(alloc. rate)": "44.74%",
+        "std/average(alloc. rate)": "43.28%"
+    }
+}

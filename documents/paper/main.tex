@@ -1,0 +1,93 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{xurl}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\interfootnotelinepenalty=0
+
+\begin{document}
+
+\lstset{
+    language=Java,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{orange},
+    frame=none,
+    breaklines=true,
+    tabsize=2
+    linewidth=\linewidth
+}
+
+\title{
+    Performance Comparison of a new and already existing Approaches to Access Structures in Java
+    %*\\
+    %{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and should not be used}
+    %\thanks{Identify applicable funding agency here. If none, delete this.}
+}
+
+\author{
+    \IEEEauthorblockN{
+        1\textsuperscript{st} Linus Andera
+    }
+    \IEEEauthorblockA{
+        \textit{Faculty Computer Science} \\
+        \textit{Hochschule Coburg}\\
+        Coburg, Germany \\
+        linus.andera@stud.hs-coburg.de
+    }
+}
+
+\maketitle
+
+\begin{abstract}
+    \input{sections/abstract}
+\end{abstract}
+
+\begin{IEEEkeywords}
+java, native access, structure, jmh, performance, lwjgl, jna, ffma
+\end{IEEEkeywords}
+
+\section{Introduction}\label{sec:introduction}
+    \input{sections/introduction}
+
+\section{LUtils}\label{sec:lutils}
+    \input{sections/lutils}
+
+\section{Methodology}\label{sec:method}
+    \input{sections/method}
+
+\section{Results and Discussion}\label{sec:results}
+    \input{sections/experiments}
+
+\section*{Summary}
+    \input{sections/summary}
+
+%! suppress = LineBreak
+\begin{thebibliography}{00}
+    \bibitem{b1} S. Liang, ``The Java native interface: programmer's guide and specification,'' Addison-Wesley Professional, 1999.
+    \bibitem{b2} A. Leonard, ``Java Coding Problems: Become an expert Java programmer by solving over 250 brand-new, modern, real-world problems,'' Packt Publishing Ltd, 2024.
+    \bibitem{b3} F. Li, et al. ``Improving memory performance of embedded Java applications by dynamic layout modifications,'' in 18th International Parallel and Distributed Processing Symposium, IEEE Proceedings, 2004.
+    \bibitem{b4} G. Tan, et al. ``Safe Java Native Interface,'' in ISSSE, 2006.
+    \bibitem{b5} M. Grichi, et al. ``State of practices of java native interface,'' in Proceedings of the 29th Annual International Conference on Computer Science and Software Engineering, 2019.
+    \bibitem{b6} G. Tan and J. Croft, ``An Empirical Security Study of the Native Code in the JDK,'' in Usenix Security Symposium. 2008.
+    \bibitem{b7} N. Tomilov and V P. Turov, ``Evaluating the performance of Java Vector API in vector embedding operations,'' in Computing Telecommunication and Control vol. 17 issue 4, pp.7-15, 2024.
+    \bibitem{b8} V. Sochat and T. Haines, ``Binary-level Software Compatibility Tool Agreement,'' arXiv preprint, arXiv:2212.03364, 2022.
+    \bibitem{b9} N. Seppälä, ``Improving Java Performance With Native Libraries,'' bachelor thesis at Metropolia University of Applied Sciences, 2024.
+    \bibitem{benchmark_pitfalls_1} R. Marcelino, B. Combemale, and B. Baudry, ``Automatic microbenchmark generation to prevent dead code elimination and constant folding,'' in Proceedings of the 31st IEEE/ACM International Conference on Automated Software Engineering, 2016.
+    \bibitem{benchmark_pitfalls_2} H. Karer and P. Soni, ``Dead code elimination technique in eclipse compiler for Java,'' in International Conference on Control, Instrumentation, Communication and Computational Technologies (ICCICCT), IEEE, 2015.
+    \bibitem{optimizing_java} B. J. Evans, J. Gough, and C. Newland, ``Optimizing Java: practical techniques for improving JVM application performance,'' O'Reilly Media Inc., 2018.
+    \bibitem{disable_cpu_features} L. Traini, V. Cortellessa, D. D. Pompeo, M. Tucci, ``Towards effective assessment of steady state performance in Java software: Are we there yet?,'' Empirical Software Engineering 28.1, 2023.
+\end{thebibliography}
+
+
+\end{document}
