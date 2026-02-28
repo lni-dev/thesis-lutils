@@ -9,7 +9,7 @@ from classes import SplitInfo, Reference, count_outliers
 #
 # Variables
 #
-benchmarkDir="../../../benchmark-results/benchmark9"
+benchmarkDir="../../../benchmark-results/benchmark2"
 
 #
 # Code
@@ -223,7 +223,8 @@ def main(outliers):
     with open(output_dir + "/forks_summary.json", "w") as f:
         json.dump(forksSummary, f, indent=4)
 
-    plt.rcParams.update({'font.size': 16})
+    font_size=16
+    plt.rcParams.update({'font.size': font_size})
     xlabel = '' #'Libraries'
     show_fliers=outliers
     post_fix=""
@@ -238,7 +239,7 @@ def main(outliers):
                    linestyles='-', linewidth=1.5, color="#462087")
     plt.gca().ticklabel_format(axis='y', useMathText=True) # Make plt not use 1e7 and instead display as 10^7
     plt.title('')
-    plt.ylabel('Execution Time in Nanoseconds')
+    plt.ylabel('Execution Time in Nanoseconds', fontsize=font_size)
     plt.xlabel(xlabel)
     plt.ylim(bottom=0) # let 0 be at the very bottom
     plt.tight_layout()
@@ -253,7 +254,7 @@ def main(outliers):
         print("bar_graph_data: " + str(bar_graph_data))
         print("bar_graph_reference_data: " + str(bar_graph_reference_data))
         plt.bar(labels, bar_graph_reference_data, zorder=4, color="#462087")
-    plt.ylabel("Allocated Bytes (Java Heap)")
+    plt.ylabel("Allocated Bytes (Java Heap)", fontsize=font_size)
     plt.xlabel(xlabel)
     plt.tight_layout()
     plt.savefig(output_dir + "/allocation.png", dpi=300)
@@ -268,7 +269,7 @@ def main(outliers):
     if split.botMax != 0:
         fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, height_ratios=[split.topWidth, 1-split.topWidth])
         fig.subplots_adjust(left=0.21, hspace=0.06)  # adjust space between Axes
-        fig.supylabel("Allocated Bytes (Java Heap)")
+        fig.supylabel("Allocated Bytes (Java Heap)", fontsize=font_size)
         plt.xlabel(xlabel)
 
         # plot the same data on both Axes
@@ -307,7 +308,7 @@ def main(outliers):
     if split.botMax != 0:
         fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, height_ratios=[split.topWidth, 1-split.topWidth])
         fig.subplots_adjust(left=0.21, hspace=0.06)  # adjust space between Axes
-        fig.supylabel("Execution Time in Nanoseconds")
+        fig.supylabel("Execution Time in Nanoseconds", fontsize=font_size)
         plt.xlabel(xlabel)
 
         # plot the same data on both Axes
