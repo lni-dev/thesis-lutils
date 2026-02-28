@@ -9,7 +9,7 @@ from classes import SplitInfo, Reference, count_outliers
 #
 # Variables
 #
-benchmarkDir="../../../benchmark-results/benchmark2"
+benchmarkDir="../../../benchmark-results/benchmark6"
 
 #
 # Code
