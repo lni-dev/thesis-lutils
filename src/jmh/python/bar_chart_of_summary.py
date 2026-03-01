@@ -3,9 +3,9 @@
 #
 from classes import SplitInfo
 
-dir="../../../benchmark-results/benchmark6"
+dir="../../../benchmark-results/benchmark9"
 referenceDir=None
-#referenceDir="../../../benchmark-results/benchmark9reference"
+referenceDir="../../../benchmark-results/benchmark9reference"
 
 #
 # Code
@@ -37,10 +37,11 @@ if referenceDir is not None:
 plt.figure()
 plt.grid(axis='y', linestyle='--', linewidth=0.7, zorder=0)
 plt.gca().ticklabel_format(axis='y', useMathText=True) # Make plt not use 1e7 and instead display as 10^7
-rects = plt.bar(labels, bar_graph_exec_time_data, zorder=3)
+rects = plt.bar(labels, bar_graph_exec_time_data, zorder=3, label="execution time")
 plt.bar_label(rects, fmt=custom_fmt, padding=3)
 if referenceDir is not None:
-    plt.bar(labels, bar_graph_exec_time_ref_data, zorder=4, color="#462087")
+    plt.bar(labels, bar_graph_exec_time_ref_data, zorder=4, color="#462087", label="reference")
+    plt.legend(loc='upper left', ncols=1)
 plt.ylabel("Execution Time (ns)")
 plt.xlabel('')
 plt.tight_layout()
@@ -51,11 +52,12 @@ plt.show()
 plt.figure()
 plt.grid(axis='y', linestyle='--', linewidth=0.7, zorder=0)
 plt.gca().ticklabel_format(axis='y', useMathText=True) # Make plt not use 1e7 and instead display as 10^7
-rects = plt.bar(labels, bar_graph_alloc_data, zorder=3)
+rects = plt.bar(labels, bar_graph_alloc_data, zorder=3, label="allocated bytes")
 plt.bar_label(rects, fmt=custom_fmt, padding=3)
 
 if referenceDir is not None:
-    plt.bar(labels, bar_graph_alloc_ref_data, zorder=4, color="#462087")
+    plt.bar(labels, bar_graph_alloc_ref_data, zorder=4, color="#462087", label="reference")
+    plt.legend(loc='upper left', ncols=1)
 plt.ylabel("Allocated Bytes")
 plt.xlabel('')
 plt.tight_layout()

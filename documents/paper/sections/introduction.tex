@@ -3,17 +3,30 @@ Consequently, a variety of libraries have been developed to bridge this gap and 
 This study introduces a novel approach to dynamically create aggregate types from special Java classes at runtime, while
 providing support for different Application Binary Interfaces (ABI).
 Especially in performance critical applications, like real-time rendering, different ABIs are required to transfer structures
-to graphic processors using Vulkan, OpenGL or OpenCL\@.
+to graphic processors using Vulkan\footnote{
+    \url{
+        https://docs.vulkan.org/spec/latest/chapters/interfaces.html#interfaces-resources-layout
+    }
+}, OpenGL\footnote{
+    \url{
+        https://registry.khronos.org/OpenGL/specs/gl/glspec46.core.withchanges.pdf
+    }
+} or OpenCL\footnote{
+    \url{
+        https://ieeexplore.ieee.org/abstract/document/7478342/
+    }
+}
+\@.
 These ABIs are not supported by current Java native interop libraries.
-LUtils includes multiple ABIs and provides the developer with the ability to implement custom ABIs. However, it has as not
+LUtils includes multiple ABIs and provides the developer with the ability to implement custom ABIs. However, it has not
 seen much usage in real-world applications and is missing comparisons to already existing libraries in terms of performance and
 memory usage.
 Therefore, this paper aims to compare the performance of LUtils against existing solutions – namely Lightweight Java Game
 Library (LWJGL), Foreign Functions and Memory API (FFMA) and Java Native Access (JNA) – in
-terms of structure creation, write/read operations, and startup costs.
-Thereby, answering whether LUtils can be used in performance-critical applications or if other libraries should be preferred.
+terms of structure creation and write/read operations.
+Thus, answering whether LUtils can be used in performance-critical applications or if other libraries should be preferred.
 
-There have been many studies analysing performance of Java native interop libraries with respect to structures.
+There have not been many studies analysing performance of Java native interop libraries with respect to structures.
 However, one remotely related approach\cite{b3} aims to improve memory performance of embedded Java applications.
 It discusses dynamically changing the memory layout of arrays on embedded systems to improve performance.
 Other research\cite{b4,b5,b6} discusses common practices and security related issues of the Java Native Interface (JNI).
@@ -32,4 +45,7 @@ which minimize communication between Java and native code.
 This represents the key difference to the approach presented by the present paper, which aims to analyse the impact of
 creating and accessing structures in Java code without passing the structures to native code.
 
-The rest of this article is organized as follows: TODO
+The remainder of this article is organised as follows:
+The next section provides a concise introduction to LUtils, followed by a description of the experimental methodology.
+Subsequently, the results of the experiments are presented and discussed.
+Finally, the paper concludes with a summary of the findings.

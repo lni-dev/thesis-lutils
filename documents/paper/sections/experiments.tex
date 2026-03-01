@@ -1,5 +1,5 @@
 This section discusses experiment results.
-The results of experiment 1 and 2 are presented first and afterwards the results of experiment 3 are shown.
+The results of experiment 1 and 2 are presented first, followed by the results of experiment 3.
 
 \subsection{Structure Creation/Allocation without write/read operations}\label{subsec:b1-e1-e2-results}
 % RESULTS: benchmark 1 of experiment 1 and 2
@@ -50,7 +50,11 @@ structures.
             imgs/measurementsAvg_of_benchmark2_and_benchmark5
         }
     }
-    \caption{Execution time results of the first benchmark for experiment 1 and 2.}
+    \caption{
+        Execution time results of the first benchmark for experiment 1 and 2.
+        The benchmarks allocate multiple structures
+        without performing write or read operations.
+    }
     \label{fig:exec_time_b1_e1_e2}
 \end{figure}
 
@@ -60,7 +64,11 @@ structures.
             imgs/allocationsMeasurementsMedian_of_benchmark2_and_benchmark5
         }
     }
-    \caption{Allocation rate results of the first benchmark for experiment 1 and 2.}
+    \caption{
+        Allocation rate results of the first benchmark for experiment 1 and 2.
+        The benchmarks allocate multiple structures
+        without performing write or read operations.
+    }
     \label{fig:alloc_rate_b1_e1_e2}
 \end{figure}
 
@@ -72,11 +80,11 @@ structures.
 The second benchmark evaluates the creation and allocation of structures including write and read operations to all fields.
 The execution time and allocation rate measurement results of this benchmark are presented in
 Fig.~\ref{fig:exec_time_b2_e1_e2} and Fig.~\ref{fig:alloc_rate_b2_e1_e2} for both experiment 1 and 2.
-Additionally to the main measurement, a reference is included in the figures, which allocates the same structures without
+In addition to the main measurement, the figures include a reference benchmark, which allocates the same structures without
 performing any write or read operations.
 Once again, LWJGL achieves the best performance, followed by FFMA, which requires more than four times the execution time
 and slightly more than twice the Java-Heap memory compared to LWJGL in both experiments.
-Both libraries again outperform LUtils and JNA in both execution time and allocation rate.
+Nevertheless, both libraries outperform LUtils and JNA in both execution time and allocation rate.
 However, the gap between FFMA and LUtils shrinks compared to the first benchmark.
 Specifically, the execution time factor between FFMA and LUtils decreases from 13 and 48 in the first benchmark to a factor
 of 1.5 and 3.6 in benchmark 2.
@@ -91,7 +99,7 @@ from 855 ns to 12,438 ns.
 
 Overall, the results indicate that LWJGL again provides the most efficient implementation for write and read access,
 both in terms of execution time and memory allocation overhead.
-FFMA again outperforms LUtils and JNA, but displays the largest relative write/read overhead of approximately 80\%
+FFMA outperforms LUtils and JNA, but displays the largest relative write/read overhead of approximately 80\%
 in both execution time and memory allocation.
 
 % INTERPRETATION: benchmark 2 of experiment 1 and 2
@@ -101,11 +109,11 @@ Firstly, the large relative write and read overhead of LWJGL is unexpected, beca
 translate most memory operations directly to \texttt{Unsafe.put*()} and \texttt{Unsafe.get*()} methods, which is a JVM
 intrinsic and should be replaced with handwritten assembly or bytecode at runtime thereby increasing performance\cite{optimizing_java}.
 Looking at the benchmark code, this can be reasonably explained: A large part of the introduced overhead stems from the
-code itself, specifically from Integer, Long and Float wrapper classes that are created during the benchmark.
+benchmark code itself, specifically from Integer, Long and Float wrapper classes that are created during the benchmark.
 Of course, this overhead is introduced to all libraries equally, but the effect is most visible on LWJGL, due to its low
 reference execution time.
 Another interesting observation is the large relative overhead of FFMA introduced by writing and reading from the structures.
-This is likely due to the use of VarHandle instead of written or generated functions, which requires
+This is likely due to the use of \texttt{VarHandle} instead of written or generated functions, which requires
 additional conversions and checks executed on every write and read operation\footnote{
     \url{
         https://github.com/openjdk/jdk/blob/bea48b54e2f423693e1e472129a86b030baf9eee/src/java.base/share/classes/java/lang/invoke/VarHandle.java
@@ -127,7 +135,12 @@ Furthermore, reading from the structure using \texttt{Structure.read()} requires
             imgs/measurementsAvg_of_benchmark3_and_benchmark7
         }
     }
-    \caption{Execution time results of the second benchmark for experiment 1 and 2.}
+    \caption{
+        Execution time results of the second benchmark for experiment 1 and 2.
+        The benchmarks allocate structures and perform write/read operations on all structure fields.
+        Additionally, reference benchmarks are included which allocate the same structures without performing write or read operations,
+        to isolate write/read overhead.
+    }
     \label{fig:exec_time_b2_e1_e2}
 \end{figure}
 
@@ -137,7 +150,12 @@ Furthermore, reading from the structure using \texttt{Structure.read()} requires
             imgs/allocationsMeasurementsMedian_of_benchmark3_and_benchmark7
         }
     }
-    \caption{Allocation rate results of the second benchmark for experiment 1 and 2.}
+    \caption{
+        Allocation rate results of the second benchmark for experiment 1 and 2.
+        The benchmarks allocate structures and perform write/read operations on all structure fields.
+        Additionally, reference benchmarks are included which allocate the same structures without performing write or read operations,
+        to isolate write/read overhead.
+    }
     \label{fig:alloc_rate_b2_e1_e2}
 \end{figure}
 
@@ -168,8 +186,8 @@ However, noteworthy is the fact that LWJGL requires as little allocated bytes as
 This is interesting because LWJGL creates classes to easily perform write and read operations on the structures while FFMA does not.
 These classes should require a large number of allocated bytes due to the high complexity of the nested structures.
 This disparity can be explained by the fact that the large structures mostly consist of arrays of other structures and arrays of primitive types.
-LWJGL does not initially create the classes for each array element.
-Instead, the classes are only created when required.
+LWJGL does not initially create the objects required for each array element.
+Instead, the objects are only created when required.
 This means that a large increase in allocated bytes is expected when write and read operations are performed in the write/read benchmark.
 
 The fact that JNA requires 1890 times more Java-Heap memory allocation than LUtils might be explained by two reasons.
@@ -192,7 +210,12 @@ On the other hand, JNA initialises every array element when the parent structure
             imgs/broken_axis__execution_time_of_benchmark6
         }
     }
-    \caption{Execution time results of the first benchmark for experiment 3.}
+    \caption{
+        Execution time results of the first benchmark for experiment 3.
+        This benchmark allocates five large structures without performing write or read operations.
+        Due to the vast differences between JNA and the other libraries, this graph contains a broken axis. This means
+        that the gab between FFMA and JNA is larger than what is visually suggested.
+    }
     \label{fig:exec_time_b1_e3}
 \end{figure}
 
@@ -202,7 +225,12 @@ On the other hand, JNA initialises every array element when the parent structure
             imgs/broken_axis__allocation_rate_of_benchmark6
         }
     }
-    \caption{Allocation rate results of the first benchmark for experiment 3.}
+    \caption{
+        Allocation rate results of the first benchmark for experiment 3.
+        This benchmark allocates five large structures without performing write or read operations.
+        Due to the vast differences between JNA and the other libraries, this graph contains a broken axis. This means
+        that the gab between FFMA and JNA is larger than what is visually suggested.
+    }
     \label{fig:alloc_rate_b1_e3}
 \end{figure}
 
@@ -222,13 +250,13 @@ However, JNA also displays the largest absolute write/read overhead.
 
 % INTERPRETATION: benchmark 2  of experiment 3
 
-In this benchmark the large write and read overhead of LWJGL is not as unexpected as in the earlier write/read benchmarks.
+In this benchmark the large write and read overhead of LWJGL is not as unexpected as in the write/read benchmarks of the previous experiments.
 The reasoning for that is that LWJGL creates the custom structure classes for each element of all arrays whose component
 type is not a primitive type.
 These classes are required to write and read from the elements of the arrays.
 In fact, this reason also applies to FFMA and LUtils as well.
 FFMA creates a \texttt{MemorySegment} for each element and LUtils creates its custom structure classes extending \texttt{ComplexStructure}.
-Only JNA creates all of its custom structure classes in advance while allocating the structure, as mentioned during the interpretation
+Only JNA creates all of its custom structure classes in advance while creating the parent structure, as mentioned during the interpretation
 of the previous benchmark.
 
 \begin{figure}[htbp]
@@ -237,7 +265,12 @@ of the previous benchmark.
             imgs/execution_time_of_benchmark9
         }
     }
-    \caption{Execution time results of the second benchmark for experiment 3.}
+    \caption{
+        Execution time results of the second benchmark for experiment 3.
+        This benchmark allocates a single large structure and performs write/read operations on all structure fields.
+        Additionally, a reference benchmark is included, which allocates the same structure without performing write/read operations,
+        to isolate write/read overhead.
+    }
     \label{fig:exec_time_b2_e3}
 \end{figure}
 
@@ -247,7 +280,12 @@ of the previous benchmark.
             imgs/allocation_rate_of_benchmark9
         }
     }
-    \caption{Allocation rate results of the second benchmark for experiment 3.}
+    \caption{
+        Allocation rate results of the second benchmark for experiment 3.
+        This benchmark allocates a single large structure and performs write/read operations on all structure fields.
+        Additionally, a reference benchmark is included, which allocates the same structure without performing write/read operations,
+        to isolate write/read overhead.
+    }
     \label{fig:alloc_rate_b2_e3}
 \end{figure}
 
@@ -264,7 +302,7 @@ The allocation rate variability follows a similar trend.
 In the first two experiments LWJGL, FFMA and LUtils exhibit negligible standard deviations less than 0.01\% relative to their average values.
 Once again JNA displayed extreme variability in the first benchmark of experiment 1 with a standard deviation of approximately
 135\% proportional to its average value.
-Similar to the execution time results, this variability is due to 55 outliers reaching values up to 219,739 bytes.
+Similar to the execution time results, this variability is due to 10 outliers reaching values up to 219,739 bytes.
 In the other benchmark JNA displays a standard deviation of up to 90 bytes which is still less than 2\% compared to the
 respective average values.
 

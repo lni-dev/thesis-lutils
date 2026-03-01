@@ -10,6 +10,7 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{xurl}
+\usepackage[all]{nowidow}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \interfootnotelinepenalty=0
@@ -28,8 +29,12 @@
     linewidth=\linewidth
 }
 
+\widowpenalty10000
+\clubpenalty10000
+
 \title{
-    Performance Comparison of a new and already existing Approaches to Access Structures in Java
+    Performance Comparison of an ABI-Aware Approach to Access Structures in Java
+
     %*\\
     %{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and should not be used}
     %\thanks{Identify applicable funding agency here. If none, delete this.}
