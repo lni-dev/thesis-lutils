@@ -35,7 +35,9 @@ ax.set_xticks(x + width, labels)
 ax.legend(loc='upper left', ncols=3)
 ax.set_ylim(0, 349907362 * 1.1)
 
+plt.savefig("../../../benchmark-results/startup_summarised.png", dpi=300)
 plt.show()
+
 
 for i, label in enumerate(labels):
     print(label)
